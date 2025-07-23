@@ -3,19 +3,20 @@ class SearchPage {
   //======================== 🔍 Locators =======================//
 
   elements = {
-    searchField: () => cy.get('#inpt-serch'),
+    searchField: () => cy.get('#serachInt_fields'),
+    searchBox: () => cy.get('#searchBox'),
     headingElement: () => cy.get('h1'),
-    noSuggestionsSpan: () => cy.get('span.search-no-result'),
+    noSuggestionsSpan: () => cy.get('#messageBoxInner'),
   };
 
   // ======================== ✅ Actions =======================//
 
-  enterIntoSearchField(keywords) {
-    this.elements.searchField().type(keywords);
-  }
-
   clickSearchField() {
     this.elements.searchField().click();
+  }
+
+  enterIntoSearchBox(keywords) {
+    this.elements.searchBox().type(keywords);
   }
 
   typeIntoSearchField(text) {
@@ -26,13 +27,12 @@ class SearchPage {
     return this.elements.headingElement().should('be.visible').invoke('text').then(text => text.trim());
   }
 
-  getNoSuggestionMessage() {
-    return this.elements.noSuggestionsSpan()
-      .should('be.visible')
-      .invoke('text')
-      .then(text => text.trim())
-      .catch(() => '');
+ getNoSuggestionMessage() {
+  return this.elements.noSuggestionsSpan()
+    .invoke('text')
+    .then(text => text.trim());
   }
+
 }
 
 export default new SearchPage();

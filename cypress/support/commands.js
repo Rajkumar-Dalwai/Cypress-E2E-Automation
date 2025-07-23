@@ -23,41 +23,68 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
-/*
-import NewTractorLeadFormObjects from '../Pages/NewTractorLeadFormObjects';
-import TestData from '../TestData/TestData';
 
- // ======================== ✅ New Tractor lead form Custom Command ===============================//
+//=========================== 🔧 Custom Commands : New Tractor Lead Form ============================//
+import 'cypress-file-upload';
+import LeadFormPage from '../e2e/Pages/LeadFormPage';
 
 Cypress.Commands.add('submitNewTractorLeadForm', (index = 0) => {
-  const dataSet = TestData.getSetByIndex(index);
+  cy.fixture('Test-Data/Lead-Test-Data/TestData.json').then((testData) => {
+    const dataSet = testData.NewTractorTestData[index];
 
-  // Fill form fields
-  NewTractorLeadFormObjects.getCTP_Name().first().type('Testqa', { force: true });
-  cy.wait(2000);
-  NewTractorLeadFormObjects.getCTP_MobileNo().type(dataSet.mobileNumber);
-  NewTractorLeadFormObjects.selectState(dataSet.state);
-  NewTractorLeadFormObjects.getCTP_District().select(dataSet.district);
-  NewTractorLeadFormObjects.getCTP_Tehsil().select(dataSet.tehsil);
-  NewTractorLeadFormObjects.getCTP_MainCTP().first().click();
+    // Fill form fields using LeadFormPage actions
+    LeadFormPage.fillCtpName('Testqa');
+    LeadFormPage.fillCtpMobile(dataSet.mobile);
+    LeadFormPage.selectCtpState(dataSet.state);
+    LeadFormPage.selectCtpDistrict(dataSet.district);
+    LeadFormPage.selectCtpTehsil(dataSet.tehsil);
+    LeadFormPage.clickCtpMainCTAButton();
 
-  // Close OTP popup if present
-  cy.get('body').then(($body) => {
-    if ($body.find('#VerifyMobileNumber > .modal-dialog > .modal-content').length > 0) {
-      cy.get('#VerifyMobileNumber > .modal-dialog > .modal-content > .close > .filter-img').click();
+    // Close OTP popup if present
+    cy.get('body').then(($body) => {
+      if ($body.find('#VerifyMobileNumber > .modal-dialog > .modal-content').length > 0) {
+        cy.get('#VerifyMobileNumber > .modal-dialog > .modal-content > .close > .filter-img').click();
+      } else {
+        cy.log('OTP popup did not appear.');
+      }
+    });
+
+    // Submit final CTA
+    LeadFormPage.elements.ctaReceiveSimilarOffers()
+      .should('be.visible', { timeout: 20000 })
+      .click();
+
+    // Validate toast message
+    LeadFormPage.elements.finalValidationToast()
+      .should('contain.text', 'Thank you for submitting your request');
+  });
+});
+
+// =========================🔧 Custom Commands : To close Flash Popup ========================================//
+
+Cypress.Commands.add('closeFlashPopupIfPresent', () => {
+  cy.scrollTo('bottom', { duration: 1000 }); // Scroll down by 1000px
+  cy.get('body').then($body => {
+    if ($body.find('#flashPopupModal:visible').length > 0) {
+      cy.get('.filter-img1').click({ force: true });
+      cy.log('Flash popup was present and closed.');
     } else {
-      cy.log('OTP popup did not appear.');
+      cy.log('Flash popup not present.');
     }
   });
+});
 
-  // Submit final CTA
-  NewTractorLeadFormObjects.getCTA_ReceiveSimilarOffers()
-    .should('be.visible', { timeout: 20000 })
-    .click();
+// =========================🔧 Custom Commands : To close PDP Flash Popup ========================================//
 
-  // Validate toast message
-  NewTractorLeadFormObjects.getFinalValidationToast()
-    .should('contain.text', 'Thank you for submitting your request');
-}); */
+Cypress.Commands.add('closePDPFlashPopupIfPresent', () => {
+  cy.scrollTo(0, 2000, { duration: 1000 }); // Scroll down by 1000px
+  cy.get('body').then($body => {
+    if ($body.find('.list-content > .modal-body:visible').length > 0) {
+      cy.get('.cross').click({ force: true });
+      cy.log('Flash popup was present and closed.');
+    } else {
+      cy.log('Flash popup not present.');
+    }
+  });
+});
 
-// ======================== ✅ Used Tractor lead form Custom Command ===============================//

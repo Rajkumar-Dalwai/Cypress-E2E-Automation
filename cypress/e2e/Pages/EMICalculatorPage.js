@@ -4,9 +4,9 @@ class EMICalculatorPage {
 
   elements = {
     brandSelect: () => cy.get('#brandselect'),
-    firstBrand: () => cy.xpath("(//span[contains(@class, 'emi-listing-item') and contains(@class, 'brand')])[1]"),
-    firstModel: () => cy.xpath("(//li[@class='brand-wraaper tractorlisting'])[1]"),
-    calculateEMIButton: () => cy.xpath("//span[normalize-space()='Calculate EMI']"),
+    firstBrand: () => cy.get(".emi-brand-wrapper.bandsItems").first(),
+    firstModel: () => cy.get('[data-slug="arjun-605-di-4wd"]'),
+    calculateEMIButton: () => cy.get("span:contains('Calculate EMI')"),
     monthlyEMI: () => cy.get('.total_emi'),
     loanAmount: () => cy.get('#loanAmount'),
     totalPayable: () => cy.get('#totalPayable'),
@@ -14,8 +14,8 @@ class EMICalculatorPage {
 
   // ======================== ✅ Actions =======================//
 
-  selectBrand(brandName) {
-    this.elements.brandSelect().select(brandName);
+  selectBrand() {
+    this.elements.brandSelect().click();
   }
 
   clickFirstBrand() {

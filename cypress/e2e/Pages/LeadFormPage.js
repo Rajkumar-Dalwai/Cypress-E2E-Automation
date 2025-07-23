@@ -4,22 +4,21 @@ class LeadFormPage {
 
   elements = {
     // New Tractor Lead Form CTAs
-    ctpHpTractorsIn2024: () => cy.get("#popularnew > .section-css-slider > :nth-child(2) .card_initiate"),
+    ctpHpTractorsIn2025: () => cy.get("#popularnew > .section-css-slider > :nth-child(2) .card_initiate"),
     ctpHpTractorsByBudget: () => cy.get("#budget3 > .section-css-slider > :nth-child(2) .card_initiate"),
     ctpHpMiniTractors: () => cy.get(".container-mid > .section-css-slider > :nth-child(2) .card_initiate"),
     ctpLpNewTractors1: () => cy.get(":nth-child(6) > .product-card-main > .product-card-anchor > .card_initiate"),
     ctpLpNewTractors2: () => cy.get(":nth-child(6) > .product-card-main > .product-card-anchor > .card_initiate"),
     ctpPdpNtHeroSection: () => cy.get(".cta-wrapper > .submitBtnNew"),
-    ctpPdpNtSimilarSection: () => cy.get(":nth-child(1) > .product-card-main > .product-card-anchor > .card_initiate"),
-    ctpEMIPage: () => cy.xpath("(//span[@class='card_initiate ellipsis bg-blue-color boldfont text-center px-2 rounded text-capitalize transition cursor transition requestModal'][normalize-space()='Check Tractor Price'])[1]"),
+    ctpEMIPage: () => cy.get(':nth-child(1) > .product-card-main > .product-card-anchor > .card_initiate'),
 
     // New Tractor Lead Form Fields
-    ctpNameInput: () => cy.get("#GetOnRoadPrice > .modal-dialog > .modal-content > .customModal-body > #tractor_submit_form > .row > :nth-child(1) > .form-control"),
+    ctpNameInput: () => cy.get("#GetOnRoadPrice > .modal-dialog > .modal-content > .customModal-body > #tractor_submit_form > .row > :nth-child(1) > .form-control").first(),
     ctpMobileInput: () => cy.get(".modal.show > .modal-dialog > .modal-content > .customModal-body > #tractor_submit_form > .row > :nth-child(2) > .form-control"),
     ctpStateDropdown: () => cy.get("#states"),
     ctpDistrictDropdown: () => cy.get("#gorp_form_dist_id"),
     ctpTehsilDropdown: () => cy.get("#gorp_form_village_id"),
-    ctpMainCTAButton: () => cy.get("div#GetOnRoadPrice button.tractor_submit.fillBtn.w-100.text-white.boldfont.flashpopup.CTP-card"),
+    ctpMainCTAButton: () => cy.get("div#GetOnRoadPrice button.tractor_submit.fillBtn.w-100.text-white.boldfont.flashpopup.CTP-card").first(),
     ctaReceiveSimilarOffers: () => cy.get("#recom-form > .modal-footer > .btn"),
     finalValidationToast: () => cy.get(".ssss"),
 
@@ -89,11 +88,37 @@ class LeadFormPage {
     suhFinalSubmit: () => cy.get("fieldset.ng-scope > .form-submit-btn"),
   };
 
-  // ======================== ✅ Actions =======================//
+  // ======================== ✅ New Tractor Actions =======================//
 
-  clickCtpHpTractorsIn2024() {
-    this.elements.ctpHpTractorsIn2024().click();
+  clickCtpHpTractorsIn2025() {
+    this.elements.ctpHpTractorsIn2025().click();
   }
+
+  clickCtpHpTractorsByBudget() {
+    this.elements.ctpHpTractorsByBudget().click();
+  }
+
+  clickCtpHpMiniTractors() {
+    this.elements.ctpHpMiniTractors().click();
+  }
+
+  clickCtpLpNewTractors1() {
+    this.elements.ctpLpNewTractors1().click();
+  }
+
+  clickCtpLpNewTractors2() {
+    this.elements.ctpLpNewTractors2().click();  
+  }
+
+  clickCtpPdpNtHeroSection() {
+    this.elements.ctpPdpNtHeroSection().click();
+  }
+
+  clickCtpEMIPage() {
+    this.elements.ctpEMIPage().click();
+  } 
+
+  //========================= 🔧 Form Actions ==================================//
 
   fillCtpName(name) {
     this.elements.ctpNameInput().clear().type(name);
@@ -119,8 +144,247 @@ class LeadFormPage {
     this.elements.ctpMainCTAButton().click();
   }
 
-  // Add similar action methods for other sections as needed...
+  //========================= ✅ Sell Used Tractor Actions =======================//
 
+  fillSutLocation(location) {
+    this.elements.sutLocationInput().clear().type(location);
+  }
+
+  selectSutLocationSuggestion() {
+    this.elements.sutLocationSuggestion().click();
+  }
+
+  fillSutUserName(name) {
+    this.elements.sutUserName().clear().type(name);
+  }
+
+  fillSutUserMobile(mobile) {
+    this.elements.sutUserMobile().clear().type(mobile);
+  }
+
+  clickSutSubmitBtn1() {
+    this.elements.sutSubmitBtn1().click();
+  }
+
+  selectSutBrand(brand) {
+    this.elements.sutBrandDropdown().select(brand);
+  }
+
+  selectSutModel(model) {
+    this.elements.sutModelDropdown().select(model);
+  }
+
+  selectSutYear(year) {
+    this.elements.sutYearDropdown().select(year);
+  }
+
+  clickSutStep1Continue() {
+    this.elements.sutStep1Continue().click();
+  }
+
+  selectSutEngineCondition(condition) {
+    this.elements.sutEngineCondition().select(condition);
+  }
+
+  selectSutTyreCondition(condition) {
+    this.elements.sutTyreCondition().select(condition);
+  }
+
+  fillSutEngineHours(hours) {
+    this.elements.sutEngineHours().select(hours);
+  }
+
+  clickSutStep2Continue() {
+    this.elements.sutStep2Continue().click();
+  }
+
+  uploadSutImage1(filePath) {
+    this.elements.sutImage1().attachFile(filePath);
+  }
+
+  uploadSutImage2(filePath) {
+    this.elements.sutImage2().attachFile(filePath);
+  }
+
+  clickSutStep3Continue() {
+    this.elements.sutStep3Continue().click();
+  }
+
+  clickSutFinalSubmit() {
+    this.elements.sutFinalSubmit().click();
+  }
+
+  closeSutThankModal() {
+    this.elements.sutThankModalClose().click();
+  }
+
+  closeSutModal() {
+    this.elements.sutCloseModal().click();
+  }
+
+  //========================= ✅ Sell Used Implements Actions =======================//
+
+  selectSuiCategory(category) {
+    this.elements.suiCategoryDropdown().select(category);
+  }
+
+  selectSuiBrand(brand) {
+    this.elements.suiBrandDropdown().select(brand);
+  }
+
+  fillSuiModelName(modelName) {
+    this.elements.suiModelName().clear().type(modelName);
+  }
+
+  selectSuiYear(year) {
+    this.elements.suiYearDropdown().select(year);
+  }
+
+  clickSuiContinue1() {
+    this.elements.suiContinue1().click();
+  }
+
+  fillSuiOwnerName(ownerName) {
+    this.elements.suiOwnerName().clear().type(ownerName);
+  }
+
+  fillSuiPrice(price) {
+    this.elements.suiPriceInput().clear().type(price);
+  }
+
+  fillSuiDescription(description) {
+    this.elements.suiDescription().clear().type(description);
+  }
+
+  clickSuiContinue2() {
+    this.elements.suiContinue2().click();
+  }
+
+  uploadSuiImage1(filePath) {
+    this.elements.suiImage1().attachFile(filePath);
+  }
+
+  uploadSuiImage2(filePath) {
+    this.elements.suiImage2().attachFile(filePath);
+  }
+
+  clickSuiContinue3() {
+    this.elements.suiContinue3().click();
+  }
+
+  fillSuiContactName(contactName) {
+    this.elements.suiContactName().clear().type(contactName);
+  }
+
+  fillSuiContactMobile(contactMobile) {
+    this.elements.suiContactMobile().clear().type(contactMobile);
+  }
+
+  selectSuiState(state) {
+    this.elements.suiStateDropdown().select(state);
+  }
+
+  selectSuiDistrict(district) {
+    this.elements.suiDistrictDropdown().select(district);
+  }
+
+  selectSuiTehsil(tehsil) {
+    this.elements.suiTehsilDropdown().select(tehsil);
+  }
+
+  fillSuiPincode(pincode) {
+    this.elements.suiPincodeInput().clear().type(pincode);
+  }
+
+  clickSuiFinalSubmit() {
+    this.elements.suiFinalSubmit().click();
+  }
+
+  //========================= ✅ Sell Used Harvester Actions =======================//
+
+  fillSuhModel(model) {
+    this.elements.suhModelInput().clear().type(model);
+  }
+
+  fillSuhCropType(cropType) {
+    this.elements.suhCropType().clear().type(cropType);
+  }
+
+  fillSuhCuttingWidth(width) {
+    this.elements.suhCuttingWidth().clear().type(width);
+  }
+
+  fillSuhDriveType(driveType) {
+    this.elements.suhDriveType().clear().type(driveType);
+  }
+
+  selectSuhBrand(brand) {
+    this.elements.suhBrandDropdown().select(brand);
+  }
+
+  clickSuhContinue1() {
+    this.elements.suhContinue1().click();
+  }
+
+  fillSuhOwnerName(ownerName) {
+    this.elements.suhOwnerName().clear().type(ownerName);
+  }
+
+  fillSuhEngineHours(hours) {
+    this.elements.suhEngineHours().clear().type(hours);
+  }
+
+  selectSuhYear(year) {
+    this.elements.suhYearDropdown().select(year);
+  }
+
+  fillSuhPrice(price) {
+    this.elements.suhPriceInput().clear().type(price);
+  }
+
+  fillSuhDescription(description) {
+    this.elements.suhDescription().clear().type(description);
+  }
+
+  uploadSuhImage1(filePath) {
+    this.elements.suhImage1().attachFile(filePath);
+  }
+
+  uploadSuhImage2(filePath) {
+    this.elements.suhImage2().attachFile(filePath);
+  }
+
+  clickSuhContinue2() {
+    this.elements.suhContinue2().click();
+  }
+
+  fillSuhContactName(contactName) {
+    this.elements.suhContactName().clear().type(contactName);
+  }
+
+  fillSuhContactMobile(contactMobile) {
+    this.elements.suhContactMobile().clear().type(contactMobile);
+  }
+
+  selectSuhState(state) {
+    this.elements.suhStateDropdown().select(state);
+  }
+
+  selectSuhDistrict(district) {
+    this.elements.suhDistrictDropdown().select(district);
+  }
+
+  selectSuhTehsil(tehsil) {
+    this.elements.suhTehsilDropdown().select(tehsil);
+  }
+
+  fillSuhPincode(pincode) {
+    this.elements.suhPincodeInput().clear().type(pincode);
+  }
+
+  clickSuhFinalSubmit() {
+    this.elements.suhFinalSubmit().click();
+  }
 }
 
 export default new LeadFormPage();

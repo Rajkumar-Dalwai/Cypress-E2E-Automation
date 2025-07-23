@@ -9,7 +9,7 @@ class ComparePage {
     compareButton: () => cy.get("a[title='Compare Tractors']"),
     comparisonHeader: () => cy.get("h1"),
     otherInfoTab: () => cy.get("div.tabNEW-block.result-tabs-container.pt-2 span[title='Other Information']"),
-    otherInfoSection: () => cy.xpath("//*[contains(text(),'Other Information') or contains(@id, 'OtherInformation')]"),
+    otherInfoSection: () => cy.get("section[id='other-content'] h3")
   };
 
   // ======================== ✅ Actions =======================//
