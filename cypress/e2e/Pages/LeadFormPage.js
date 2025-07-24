@@ -63,9 +63,11 @@ class LeadFormPage {
     suiTehsilDropdown: () => cy.get(":nth-child(5) > .form-group > .form-control"),
     suiPincodeInput: () => cy.get(".row > :nth-child(6) > .form-group > .form-control"),
     suiFinalSubmit: () => cy.get("fieldset.ng-scope > .form-submit-btn"),
+    successToast: () => cy.get('.ssss'),
 
     // Sell Used Harvester
-    suhModelInput: () => cy.get(":nth-child(2) > .form-group > .form-control"),
+    suhBrandInput: () => cy.get("select[name='brand_id']"),
+    suhModelName: () => cy.get("input[placeholder='Enter Your Model Name']"),
     suhCropType: () => cy.get(".row > :nth-child(3) > .form-group > .form-control"),
     suhCuttingWidth: () => cy.get(":nth-child(4) > .form-group > .form-control"),
     suhDriveType: () => cy.get(":nth-child(5) > .form-group > .form-control"),
@@ -79,6 +81,7 @@ class LeadFormPage {
     suhImage1: () => cy.get("#fileField0"),
     suhImage2: () => cy.get("#fileField1"),
     suhContinue2: () => cy.get("fieldset.ng-scope > .form-submit-btn"),
+    suhContinue3: () => cy.get("fieldset.ng-scope > .form-submit-btn"),
     suhContactName: () => cy.get(".row > :nth-child(1) > .form-group > .form-control"),
     suhContactMobile: () => cy.get(":nth-child(2) > .form-group > .form-control"),
     suhStateDropdown: () => cy.get(".row > :nth-child(3) > .form-group > .form-control"),
@@ -86,6 +89,7 @@ class LeadFormPage {
     suhTehsilDropdown: () => cy.get(":nth-child(5) > .form-group > .form-control"),
     suhPincodeInput: () => cy.get(".row > :nth-child(6) > .form-group > .form-control"),
     suhFinalSubmit: () => cy.get("fieldset.ng-scope > .form-submit-btn"),
+    successToast: () => cy.get('.ssss')
   };
 
   // ======================== ✅ New Tractor Actions =======================//
@@ -121,11 +125,11 @@ class LeadFormPage {
   //========================= 🔧 Form Actions ==================================//
 
   fillCtpName(name) {
-    this.elements.ctpNameInput().clear().type(name);
+    this.elements.ctpNameInput().type(name);
   }
 
   fillCtpMobile(mobile) {
-    this.elements.ctpMobileInput().clear().type(mobile);
+    this.elements.ctpMobileInput().type(mobile);
   }
 
   selectCtpState(state) {
@@ -147,7 +151,7 @@ class LeadFormPage {
   //========================= ✅ Sell Used Tractor Actions =======================//
 
   fillSutLocation(location) {
-    this.elements.sutLocationInput().clear().type(location);
+    this.elements.sutLocationInput().type(location);
   }
 
   selectSutLocationSuggestion() {
@@ -155,11 +159,11 @@ class LeadFormPage {
   }
 
   fillSutUserName(name) {
-    this.elements.sutUserName().clear().type(name);
+    this.elements.sutUserName().type(name);
   }
 
   fillSutUserMobile(mobile) {
-    this.elements.sutUserMobile().clear().type(mobile);
+    this.elements.sutUserMobile().type(mobile);
   }
 
   clickSutSubmitBtn1() {
@@ -233,7 +237,7 @@ class LeadFormPage {
   }
 
   fillSuiModelName(modelName) {
-    this.elements.suiModelName().clear().type(modelName);
+    this.elements.suiModelName().type(modelName);
   }
 
   selectSuiYear(year) {
@@ -245,15 +249,15 @@ class LeadFormPage {
   }
 
   fillSuiOwnerName(ownerName) {
-    this.elements.suiOwnerName().clear().type(ownerName);
+    this.elements.suiOwnerName().type(ownerName);
   }
 
   fillSuiPrice(price) {
-    this.elements.suiPriceInput().clear().type(price);
+    this.elements.suiPriceInput().type(price);
   }
 
   fillSuiDescription(description) {
-    this.elements.suiDescription().clear().type(description);
+    this.elements.suiDescription().type(description);
   }
 
   clickSuiContinue2() {
@@ -273,11 +277,11 @@ class LeadFormPage {
   }
 
   fillSuiContactName(contactName) {
-    this.elements.suiContactName().clear().type(contactName);
+    this.elements.suiContactName().type(contactName);
   }
 
   fillSuiContactMobile(contactMobile) {
-    this.elements.suiContactMobile().clear().type(contactMobile);
+    this.elements.suiContactMobile().type(contactMobile);
   }
 
   selectSuiState(state) {
@@ -293,7 +297,7 @@ class LeadFormPage {
   }
 
   fillSuiPincode(pincode) {
-    this.elements.suiPincodeInput().clear().type(pincode);
+    this.elements.suiPincodeInput().type(pincode);
   }
 
   clickSuiFinalSubmit() {
@@ -302,20 +306,24 @@ class LeadFormPage {
 
   //========================= ✅ Sell Used Harvester Actions =======================//
 
-  fillSuhModel(model) {
-    this.elements.suhModelInput().clear().type(model);
+  fillSuhBrand(brand) {
+    this.elements.suhBrandInput().select(brand);
+  }
+
+  fillSuhModelName(modelName) {
+    this.elements.suhModelName().type(modelName);
   }
 
   fillSuhCropType(cropType) {
-    this.elements.suhCropType().clear().type(cropType);
+    this.elements.suhCropType().select(cropType);
   }
 
   fillSuhCuttingWidth(width) {
-    this.elements.suhCuttingWidth().clear().type(width);
+    this.elements.suhCuttingWidth().select(width);
   }
 
   fillSuhDriveType(driveType) {
-    this.elements.suhDriveType().clear().type(driveType);
+    this.elements.suhDriveType().select(driveType);
   }
 
   selectSuhBrand(brand) {
@@ -327,11 +335,11 @@ class LeadFormPage {
   }
 
   fillSuhOwnerName(ownerName) {
-    this.elements.suhOwnerName().clear().type(ownerName);
+    this.elements.suhOwnerName().type(ownerName);
   }
 
   fillSuhEngineHours(hours) {
-    this.elements.suhEngineHours().clear().type(hours);
+    this.elements.suhEngineHours().select(hours);
   }
 
   selectSuhYear(year) {
@@ -339,11 +347,11 @@ class LeadFormPage {
   }
 
   fillSuhPrice(price) {
-    this.elements.suhPriceInput().clear().type(price);
+    this.elements.suhPriceInput().type(price);
   }
 
   fillSuhDescription(description) {
-    this.elements.suhDescription().clear().type(description);
+    this.elements.suhDescription().type(description);
   }
 
   uploadSuhImage1(filePath) {
@@ -358,12 +366,16 @@ class LeadFormPage {
     this.elements.suhContinue2().click();
   }
 
+  clickSuhContinue3() {
+    this.elements.suhContinue3().click();
+  }
+
   fillSuhContactName(contactName) {
-    this.elements.suhContactName().clear().type(contactName);
+    this.elements.suhContactName().type(contactName);
   }
 
   fillSuhContactMobile(contactMobile) {
-    this.elements.suhContactMobile().clear().type(contactMobile);
+    this.elements.suhContactMobile().type(contactMobile);
   }
 
   selectSuhState(state) {
@@ -379,12 +391,17 @@ class LeadFormPage {
   }
 
   fillSuhPincode(pincode) {
-    this.elements.suhPincodeInput().clear().type(pincode);
+    this.elements.suhPincodeInput().type(pincode);
   }
 
   clickSuhFinalSubmit() {
     this.elements.suhFinalSubmit().click();
   }
+
+  getSuccessToast() {
+    return this.elements.successToast();
+  }
+
 }
 
 export default new LeadFormPage();

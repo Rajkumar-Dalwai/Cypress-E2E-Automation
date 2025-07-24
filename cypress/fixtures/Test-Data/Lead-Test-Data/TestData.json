@@ -102,11 +102,22 @@
       "pincode": "123456"
     },
     {
-      "name" : "Testqa SUH W",
-      "mobile": "9123456404",
+      "ownerName" : "Testqa SUH W",
+      "contactMobile": "9123456404",
       "state": "Rajasthan",
       "district": "Dholpur",
-      "tehsil": "Dholpur"
+      "tehsil": "Dholpur",
+      "brand": "64",
+      "modelName": "265 DI Power plus",
+      "cropType":"paddy",
+      "cuttingWidth": "8-14 Feets",
+      "driveType": "Self",
+      "year": "2020", 
+      "title": "Test Owner",
+      "engineHours": "1001 - 2000",
+      "price": "50000",
+      "description": "Test description for SUH",
+      "pincode": "123456"
     }
   ]
 }

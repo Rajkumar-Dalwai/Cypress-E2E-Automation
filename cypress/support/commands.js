@@ -26,6 +26,7 @@
 
 //=========================== 🔧 Custom Commands : New Tractor Lead Form ============================//
 import 'cypress-file-upload';
+const XLSX = require('xlsx');
 import LeadFormPage from '../e2e/Pages/LeadFormPage';
 
 Cypress.Commands.add('submitNewTractorLeadForm', (index = 0) => {
@@ -87,4 +88,152 @@ Cypress.Commands.add('closePDPFlashPopupIfPresent', () => {
     }
   });
 });
+
+//==================================== 🔧 Custom Commands : Validate State Dropdown Options ============================//
+
+import LocationMasterPage from '../e2e/Pages/LocationMasterPage';
+
+Cypress.Commands.add('validateStateDropdown', (url, language, stateData, pageType) => {
+  // Validate inputs
+  if (!url || url === 'undefined' || url.includes('undefined')) {
+    throw new Error(`Invalid URL provided: "${url}". Please ensure Cypress.env('baseUrl') is set correctly.`);
+  }
+  if (!stateData || !Array.isArray(stateData) || stateData.length === 0) {
+    throw new Error('Invalid stateData: Must be a non-empty array.');
+  }
+  if (!language || !stateData[0][language]) {
+    throw new Error(`Invalid language: "${language}". Ensure it exists in stateData.`);
+  }
+
+  const locationPage = LocationMasterPage;
+
+  // Visit the page and ensure it loads
+  cy.visit(url).then(() => {
+    cy.get('body').should('be.visible');
+  });
+
+  // Trigger page-specific action
+  locationPage.performPageAction(pageType);
+
+  // Get locator for dropdown options
+  const stateOptionsLocator = locationPage.getStateOptionsByPageType(pageType);
+
+  // Wait for dropdown to be visible
+  stateOptionsLocator().should('be.visible');
+
+  // Get expected states
+  const expectedStates = stateData.map(state => state[language].trim());
+
+  // Log expected states for comparison
+  cy.log(`Expected States for ${pageType} (${language}): ${JSON.stringify(expectedStates)}`);
+
+  // Validate the number of non-placeholder options
+  stateOptionsLocator()
+    .find('option')
+    .not(':first')
+    .should('have.length', expectedStates.length);
+
+  // Validate each option
+  let orderMismatches = [];
+  let spellingMismatches = [];
+
+  stateOptionsLocator()
+    .find('option')
+    .not(':first')
+    .each(($option, index) => {
+      const actual = $option.text().trim();
+      const expected = expectedStates[index];
+
+      if (actual !== expected) {
+        if (expectedStates.includes(actual)) {
+          orderMismatches.push({ index, actual, expected });
+        } else {
+          spellingMismatches.push({ index, actual, expected });
+        }
+      }
+    })
+    .then(() => {
+      if (orderMismatches.length) {
+        cy.log('❌ Order Mismatched States:');
+        orderMismatches.forEach(mismatch => {
+          const msg = `Index: ${mismatch.index}, Expected: ${mismatch.expected}, Actual: ${mismatch.actual}`;
+          cy.log(msg);
+          console.error(msg);
+        });
+        throw new Error(
+          `State validation failed due to order mismatches for "${pageType}" in ${language}:\n` +
+          orderMismatches.map(m => `Index: ${m.index}, Expected: ${m.expected}, Actual: ${m.actual}`).join('\n')
+        );
+      }
+
+      if (spellingMismatches.length) {
+        cy.log('❌ Spelling Mismatched States:');
+        spellingMismatches.forEach(mismatch => {
+          const msg = `Index: ${mismatch.index}, Expected: ${mismatch.expected}, Actual: ${mismatch.actual}`;
+          cy.log(msg);
+          console.error(msg);
+        });
+        throw new Error(
+          `State validation failed due to spelling mismatches for "${pageType}" in ${language}:\n` +
+          spellingMismatches.map(m => `Index: ${m.index}, Expected: ${m.expected}, Actual: ${m.actual}`).join('\n')
+        );
+      }
+
+      cy.log(`✅ All states are matched accurately for "${pageType}" in ${language}!`);
+    });
+
+  // Validate option count
+  locationPage.getDropdownOptionCount(stateOptionsLocator).then((actualCount) => {
+    expect(actualCount).to.eq(
+      expectedStates.length,
+      `Expected ${expectedStates.length} state options for "${pageType}", but found ${actualCount}`
+    );
+  });
+});
+
+//-==================================== 🔧 Custom Commands : URL Validation ============================//
+
+Cypress.Commands.add('validateAllLinks', (locator) => {
+    const failedUrls = {
+        notFound: new Set(),
+        serverError: new Set(),
+        timeout: new Set(),
+    };
+    let successCount = 0;
+
+    cy.get(locator).each(($el) => {
+        const href = $el.prop('href');
+        if (href && href.startsWith('http')) {
+            cy.request({
+                url: href,
+                failOnStatusCode: false,
+                timeout: 20000,
+            }).then((response) => {
+                if (response.status === 404) {
+                    failedUrls.notFound.add(href);
+                } else if (response.status >= 500) {
+                    failedUrls.serverError.add(href);
+                } else {
+                    successCount++;
+                }
+            });
+        } else {
+            cy.log(`Skipping invalid URL: ${href}`);
+        }
+    });
+
+    cy.then(() => {
+        const logResults = (label, urls, emoji) => {
+            if (urls.size > 0) {
+                cy.log(`${emoji} ${label}: ${urls.size} URLs`);
+                urls.forEach((url) => cy.log(url));
+            }
+        };
+
+        logResults('404 Pages', failedUrls.notFound, '❌');
+        logResults('500 Pages', failedUrls.serverError, '❌');
+        cy.log(`✅ Successfully validated links: ${successCount}`);
+    });
+});
+
 

@@ -3,21 +3,24 @@ import '../../support/commands';
 
 describe('Lead Form Tests', () => {
 
-  /*it('should submit new tractor lead form on Homepage- 1', () => {
+  it('should submit new tractor lead form on Homepage- 1', () => {
     cy.visit(Cypress.env('baseUrl'));
     LeadFormPage.clickCtpHpTractorsIn2025();
+    cy.wait(1000);
     cy.submitNewTractorLeadForm(0);
   });
 
   it('should submit new tractor lead form on Homepage- 2', () => {
     cy.visit(Cypress.env('baseUrl'));
     LeadFormPage.clickCtpHpTractorsByBudget();
+    cy.wait(1000);
     cy.submitNewTractorLeadForm(1);
   }); 
 
   it('should submit new tractor lead form on Homepage- 3', () => {
     cy.visit(Cypress.env('baseUrl'));
     LeadFormPage.clickCtpHpMiniTractors();
+    cy.wait(1000);
     cy.submitNewTractorLeadForm(2);
   }); 
 
@@ -25,6 +28,7 @@ describe('Lead Form Tests', () => {
     cy.visit(Cypress.env('baseUrl')+'tractors/');
     cy.closeFlashPopupIfPresent();
     LeadFormPage.clickCtpLpNewTractors1();
+    cy.wait(1000);
     cy.submitNewTractorLeadForm(3);
   }); 
 
@@ -32,6 +36,7 @@ describe('Lead Form Tests', () => {
     cy.visit(Cypress.env('baseUrl')+'massey-ferguson-tractor/');
     cy.closeFlashPopupIfPresent();
     LeadFormPage.clickCtpLpNewTractors2();
+    cy.wait(1000);
     cy.submitNewTractorLeadForm(4);
   }); 
 
@@ -39,17 +44,20 @@ describe('Lead Form Tests', () => {
     cy.visit(Cypress.env('baseUrl')+'captain-tractor/200-di-ls/');
     cy.closePDPFlashPopupIfPresent();
     LeadFormPage.clickCtpPdpNtHeroSection();
+    cy.wait(1000);
     cy.submitNewTractorLeadForm(5);
   }); 
 
   it('should submit new tractor lead form on EMI Calculator Page', () => {
     cy.visit(Cypress.env('baseUrl')+'tractor-loan-emi-calculator/');
     LeadFormPage.clickCtpEMIPage();
+    cy.wait(1000);
     cy.submitNewTractorLeadForm(6);
   }); 
 
   it('should submit Sell Used Tractor lead form', () => {
     cy.visit(Cypress.env('baseUrl') + 'sell-used-tractor/');
+    cy.wait(1000);
 
     cy.fixture('Test-Data/Lead-Test-Data/TestData.json').then((testData) => {
       const dataSet = testData.UsedTractorTestData[0]; // Adjust index as needed
@@ -75,10 +83,11 @@ describe('Lead Form Tests', () => {
 
       LeadFormPage.closeSutThankModal(); // Optionally, validate success modal or toast
     });
-  }); */
+  }); 
 
   it('should submit Sell Used Implements lead form', () => {
     cy.visit(Cypress.env('baseUrl') + 'sell/farm-implements/');
+    cy.wait(1000);
 
     cy.fixture('Test-Data/Lead-Test-Data/TestData.json').then((testData) => {
       const dataSet = testData.UsedTractorTestData[1]; // Adjust index as needed
@@ -109,7 +118,49 @@ describe('Lead Form Tests', () => {
       LeadFormPage.clickSuiFinalSubmit();
 
       // Optionally, validate success modal or toast
-      // LeadFormPage.closeSutThankModal();
+      cy.wait(2000);
+      LeadFormPage.getSuccessToast().should('contain', 'Your Data Submitted Successfully');
+    });
+  }); 
+
+  it('should submit Sell Used Harvester lead form', () => {
+    cy.visit(Cypress.env('baseUrl') + 'sell/harvester/');
+    cy.wait(1000);
+
+    cy.fixture('Test-Data/Lead-Test-Data/TestData.json').then((testData) => {
+      const dataSet = testData.UsedTractorTestData[2]; // Adjust index as needed
+
+      LeadFormPage.fillSuhBrand(dataSet.brand);
+      LeadFormPage.fillSuhModelName(dataSet.modelName);
+      LeadFormPage.fillSuhCropType(dataSet.cropType);
+      LeadFormPage.fillSuhCuttingWidth(dataSet.cuttingWidth);
+      LeadFormPage.fillSuhDriveType(dataSet.driveType);
+      LeadFormPage.clickSuhContinue1();
+
+      LeadFormPage.fillSuhOwnerName(dataSet.title);
+      LeadFormPage.fillSuhEngineHours(dataSet.engineHours);
+      LeadFormPage.selectSuhYear(dataSet.year);
+      LeadFormPage.fillSuhPrice(dataSet.price);
+      LeadFormPage.fillSuhDescription(dataSet.description);
+      LeadFormPage.clickSuhContinue2();
+      // For file upload, ensure cypress-file-upload is installed and configured
+      LeadFormPage.uploadSuhImage1('/Test-Data/File-Uploads/atlassian.png', { force: true });
+      cy.wait(2000);
+      LeadFormPage.uploadSuhImage2('/Test-Data/File-Uploads/atlassian.png', { force: true });
+      cy.wait(2000);
+      LeadFormPage.clickSuhContinue3();
+
+      LeadFormPage.fillSuhContactName(dataSet.ownerName);
+      LeadFormPage.fillSuhContactMobile(dataSet.contactMobile);
+      LeadFormPage.selectSuhState(dataSet.state);
+      LeadFormPage.selectSuhDistrict(dataSet.district);
+      LeadFormPage.selectSuhTehsil(dataSet.tehsil);
+      LeadFormPage.fillSuhPincode(dataSet.pincode);
+      LeadFormPage.clickSuhFinalSubmit();
+
+      // Optionally, validate success modal or toast
+      cy.wait(2000);
+      LeadFormPage.getSuccessToast().should('contain', 'Your Data Submitted Successfully');
     });
   });
 
