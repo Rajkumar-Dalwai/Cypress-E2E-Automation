@@ -2,68 +2,69 @@ class UsedTractorListingPage {
 
   //======================== 🔍 Locators =======================//
 
-  elements = {
-    priceFilterDropdown: () => cy.xpath("//span[contains(text(),'Price')]"),
-    priceOption_0to2Lakh: () => cy.xpath("//label[contains(text(),'0 Lakh - 2 Lakh')]"),
-    priceOption_2to3Lakh: () => cy.xpath("//label[contains(text(),'2 Lakh - 3 Lakh')]"),
-    brandFilterDropdown: () => cy.xpath("//span[contains(text(),'Brand')]"),
-    brandOptionMahindra: () => cy.xpath("//label[contains(text(),'Mahindra')]"),
-    modelFilterDropdown: () => cy.xpath("//span[contains(text(),'Model')]"),
-    modelOption575DI: () => cy.xpath("(//label//span[contains(text(),'575 DI')])[1]"),
-    applyFilterButton: () => cy.get('#apply_filter'),
-    sortByDropdown: () => cy.get("input#gCityMob"),
-    sortPriceLowToHigh: () => cy.xpath("//li[contains(text(),'Price - Low to High')]"),
-    yearFilterDropdown: () => cy.xpath("//span[contains(text(),'Year')]"),
-    yearOption2025: () => cy.xpath("//label[normalize-space()='2025']"),
-    yearOption2011: () => cy.xpath("//label[normalize-space()='2011']"),
-    priceElements: () => cy.get('.hotDeal-tractor-price'),
-    listingTitleLinks: () => cy.get('div.hotDeal-tractor-content p.used-product-name a.weblink'),
-    yearElements: () => cy.xpath("//span[contains(@class, 'oneline') and contains(text(),'Model')]"),
-  };
+elements = {
+priceFilterDropdown: () => cy.get("div.select-btn").contains('Price'),
+priceOption_0to2Lakh: () => cy.get("ul.price_filter li").contains('0 Lakh - 2 Lakh'),
+priceOption_2to3Lakh: () => cy.get("ul.price_filter li").contains('2 Lakh - 3 Lakh'),
+brandFilterDropdown: () => cy.get("div.select-btn").contains('Brands'),
+brandOptionMahindra: () => cy.get("label.checkbox-custom").contains('Mahindra'),
+modelFilterDropdown: () => cy.get("div.select-btn").contains('Model'),
+modelOption575DI: () => cy.get("label.checkbox-custom").contains('575 DI').first(),
+applyFilterButton: () => cy.get('#apply_filter'),
+sortByDropdown: () => cy.get("input#gCityMob"),
+sortPriceLowToHigh: () => cy.get("div.citySearch-hide ul > li").contains('Price - Low to High'),
+sortPriceHighToLow: () => cy.get("div.citySearch-hide ul > li").contains('Price - High to Low'),
+yearFilterDropdown: () => cy.get("div.select-btn").contains('Year'),
+yearOption2025: () => cy.get("label.checkbox-custom").contains('2025'),
+yearOption2011: () => cy.get("label.checkbox-custom").contains('2011'),
+listingTitleLinks: () => cy.get('p.used-product-name a.weblink'),
+priceElements: () => cy.get('.hotDeal-tractor-price'),
+yearElements: () => cy.get("span.px-2.oneline").contains('Model')
+};
 
   // ======================== ✅ Actions =======================//
 
   applyPriceFilter_0to2Lakh() {
     this.elements.priceFilterDropdown().click();
-    this.elements.priceOption_0to2Lakh().click();
+    this.elements.priceOption_0to2Lakh().click({ force: true });
     this.elements.applyFilterButton().click();
   }
 
   applyPriceFilter_2to3Lakh() {
     this.elements.priceFilterDropdown().click();
-    this.elements.priceOption_2to3Lakh().click();
+    this.elements.priceOption_2to3Lakh().click( { force: true });
     this.elements.applyFilterButton().click();
   }
 
   applyBrandModelFilter_Mahindra_575DI() {
     this.elements.brandFilterDropdown().click();
-    this.elements.brandOptionMahindra().click();
+    this.elements.brandOptionMahindra().click({ force: true });
     this.elements.modelFilterDropdown().click();
-    this.elements.modelOption575DI().click();
+    this.elements.modelOption575DI().click({ force: true });
     this.elements.applyFilterButton().click();
   }
 
   applyBrandFilter_Mahindra() {
     this.elements.brandFilterDropdown().click();
-    this.elements.brandOptionMahindra().click();
+    this.elements.brandOptionMahindra().click({ force: true });
     this.elements.applyFilterButton().click();
   }
 
   applyYearFilter_2025() {
     this.elements.yearFilterDropdown().click();
-    this.elements.yearOption2025().click();
+    this.elements.yearOption2025().click({ force: true });
     this.elements.applyFilterButton().click();
   }
 
   applyYearFilter_2011() {
     this.elements.yearFilterDropdown().click();
-    this.elements.yearOption2011().click();
+    this.elements.yearOption2011().click({ force: true });
     this.elements.applyFilterButton().click();
   }
 
   sortByPriceLowToHigh() {
     this.elements.sortByDropdown().click();
-    this.elements.sortPriceLowToHigh().click();
+    this.elements.sortPriceLowToHigh().click({ force: true });
   }
 
   // ======================== ✅ Extraction Methods =======================//
